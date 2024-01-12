@@ -6,7 +6,7 @@
 /*   By: pnguyen- <pnguyen-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 16:36:56 by pnguyen-          #+#    #+#             */
-/*   Updated: 2023/11/24 11:54:42 by pnguyen-         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:49:31 by pnguyen-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@
 # endif
 
 # include <stddef.h>
+
+typedef struct s_line
+{
+	char	*content;
+	int		len;
+	int		size;
+}	t_line;
 
 char	*get_next_line(int fd);
 
