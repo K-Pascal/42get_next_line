@@ -6,7 +6,7 @@
 /*   By: pnguyen- <pnguyen-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 16:36:56 by pnguyen-          #+#    #+#             */
-/*   Updated: 2023/11/23 20:29:00 by pnguyen-         ###   ########.fr       */
+/*   Updated: 2023/11/24 11:54:42 by pnguyen-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define GET_NEXT_LINE_H
 
 # ifdef BUFFER_SIZE 
-#  if BUFFER_SIZE <= 0
+#  if BUFFER_SIZE < 0
 #   undef BUFFER_SIZE
-#   define BUFFER_SIZE 1
+#   define BUFFER_SIZE 0
 #  endif
 # else
 #  define BUFFER_SIZE 43	
