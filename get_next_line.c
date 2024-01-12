@@ -6,7 +6,7 @@
 /*   By: pnguyen- <pnguyen-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 11:36:32 by pnguyen-          #+#    #+#             */
-/*   Updated: 2023/11/23 20:20:53 by pnguyen-         ###   ########.fr       */
+/*   Updated: 2023/11/23 20:28:44 by pnguyen-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*get_next_line(int fd)
 				free(line);
 				line = temp;
 				len += bytes;
-				my_strlcat(line, buffer, len + 1);
+				my_strlcat(line, buffer, len - bytes, len + 1);
 				buffer[0] = '\0';
 			}
 			else
@@ -94,7 +94,7 @@ char	*get_next_line(int fd)
 				free(line);
 				line = temp;
 				len += i + isnl;
-				my_strlcat(line, buffer, len + 1);
+				my_strlcat(line, buffer, len - (i + isnl), len + 1);
 				my_strlcpy(buffer, buffer + i + 1, BUFFER_SIZE - i);
 				buffer[BUFFER_SIZE - i] = '\0';
 			}
@@ -114,7 +114,7 @@ char	*get_next_line(int fd)
 				free(line);
 				line = temp;
 				len += bytes;
-				my_strlcat(line, buffer, len + 1);
+				my_strlcat(line, buffer, len - bytes, len + 1);
 				buffer[0] = '\0';
 			}
 			else
@@ -130,7 +130,7 @@ char	*get_next_line(int fd)
 				free(line);
 				line = temp;
 				len += i + isnl;
-				my_strlcat(line, buffer, len + 1);
+				my_strlcat(line, buffer, len - (i + isnl), len + 1);
 				my_strlcpy(buffer, buffer + i + 1, BUFFER_SIZE - i );
 				buffer[BUFFER_SIZE - i] = '\0';
 				break ;

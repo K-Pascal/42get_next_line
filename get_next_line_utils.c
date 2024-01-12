@@ -6,7 +6,7 @@
 /*   By: pnguyen- <pnguyen-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:59:48 by pnguyen-          #+#    #+#             */
-/*   Updated: 2023/11/23 18:31:31 by pnguyen-         ###   ########.fr       */
+/*   Updated: 2023/11/23 20:27:49 by pnguyen-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,19 @@ void	my_strlcpy(char dest[], char const src[], int size)
 	dest[i] = '\0';
 }
 
-void	my_strlcat(char dest[], char const src[], int size)
+void	my_strlcat(char dest[], char const src[], int start, int size)
 {
 	int	i;
-	int	j;
 
-	i = 0;
-	while (dest[i] != '\0')
-		i++;
-	if (i >= size)
+	if (start >= size)
 		return ;
-	j = 0;
-	while (j + i + 1 < size)
+	i = 0;
+	while (i + start + 1 < size)
 	{
-		dest[j + i] = src[j];
-		j++;
+		dest[start + i] = src[i];
+		i++;
 	}
-	dest[i + j] = '\0';
+	dest[start + i] = '\0';
 }
 
 int	my_strlen(char const str[])
