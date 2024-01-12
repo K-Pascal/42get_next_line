@@ -6,7 +6,7 @@
 /*   By: pnguyen- <pnguyen-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 11:36:32 by pnguyen-          #+#    #+#             */
-/*   Updated: 2023/11/24 15:48:59 by pnguyen-         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:52:19 by pnguyen-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ static char	*absorb_buffer(char *buffer, int size, int *len);
 static char	*my_alloccpy(t_line *line, int size);
 static void	my_realloc(t_line *line, int targetsize);
 static int	append_line(t_line *line, char buffer[], int bytes, int i);
-
-typedef struct s_line
-{
-	char	*content;
-	int		len;
-	int		size;
-}	t_line;
 
 char	*get_next_line(int fd)
 {
