@@ -6,7 +6,7 @@
 /*   By: pnguyen- <pnguyen-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 11:36:32 by pnguyen-          #+#    #+#             */
-/*   Updated: 2024/01/27 20:41:52 by pnguyen-         ###   ########.fr       */
+/*   Updated: 2024/02/10 11:40:11 by pnguyen-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,37 @@
 
 #include "get_next_line.h"
 
-static char	gnl_absorb_buffer(t_line *line, char buffer[BUFFER_SIZE + 1]);
+//static char	gnl_absorb_buffer(t_line *line, char buffer[BUFFER_SIZE + 1]);
 static void	*gnl_str_realloc(char *src, size_t len, size_t size);
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	buffer[BUFFER_SIZE];
 	char		*save;
 	ssize_t		bytes;
 	t_line		line;
 
 	if (fd < 0 || BUFFER_SIZE == 0)
 		return (NULL);
-	if (gnl_absorb_buffer(&line, buffer))
-		return (line.content);
-	save = NULL;
+//	if (gnl_absorb_buffer(&line, buffer))
+//		return (line.content);
+	bytes = 0;
+	line.size = BUFFER_SIZE + 1;
+	line.content = malloc(line.size * sizeof(char));
+	if (line.content == NULL)
+		return (NULL);
+	ft_strlcpy(line.content, buffer, BUFFER_SIZE + 1);
+	save = line.content;
+	while (*save != '\0')
+		save++;
+	line.len = save - line.content;
+	buffer[0] = '\0';
+	save = ft_strchr(line.content, '\n');
 	while (save == NULL)
 	{
-		while (line.size < line.len + BUFFER_SIZE + 1)
+		if (line.size <= line.len + BUFFER_SIZE)
 		{
 			line.size *= 2;
-			if (line.size < line.len + BUFFER_SIZE + 1)
-				continue ;
 			line.content = gnl_str_realloc(line.content, line.len, line.size);
 		}
 		if (line.content == NULL)
@@ -51,7 +60,7 @@ char	*get_next_line(int fd)
 	if (save != NULL)
 	{
 		line.len = (save - line.content) + 1;
-		ft_strlcpy(buffer, save + 1, BUFFER_SIZE + 1);
+		ft_strlcpy(buffer, save + 1, BUFFER_SIZE);
 	}
 	if (bytes == -1 || line.len == 0)
 	{
@@ -62,34 +71,34 @@ char	*get_next_line(int fd)
 	return (line.content);
 }
 
-static char	gnl_absorb_buffer(t_line *line, char buffer[BUFFER_SIZE + 1])
-{
-	char	*save;
-
-	line->len = 0;
-	line->size = BUFFER_SIZE + 1;
-	line->content = malloc(line->size * sizeof(char));
-	if (line->content == NULL)
-		return (1);
-	if (buffer[0] == '\0')
-		return (0);
-	save = buffer;
-	while (*save != '\0')
-		save++;
-	line->len = save - buffer;
-	save = ft_strchr(buffer, '\n');
-	if (save == NULL)
-	{
-		ft_strlcpy(line->content, buffer, line->len + 1);
-		buffer[0] = '\0';
-		return (0);
-	}
-	line->len = save - buffer + 1;
-	ft_strlcpy(line->content, buffer, line->len + 1);
-	ft_strlcpy(buffer, save + 1, BUFFER_SIZE + 1);
-	line->content = gnl_str_realloc(line->content, line->len, line->len + 1);
-	return (1);
-}
+//static char	gnl_absorb_buffer(t_line *line, char buffer[BUFFER_SIZE + 1])
+//{
+//	char	*save;
+//
+//	line->len = 0;
+//	line->size = BUFFER_SIZE + 1;
+//	line->content = malloc(line->size * sizeof(char));
+//	if (line->content == NULL)
+//		return (1);
+//	if (buffer[0] == '\0')
+//		return (0);
+//	save = buffer;
+//	while (*save != '\0')
+//		save++;
+//	line->len = save - buffer;
+//	save = ft_strchr(buffer, '\n');
+//	if (save == NULL)
+//	{
+//		ft_strlcpy(line->content, buffer, line->len + 1);
+//		buffer[0] = '\0';
+//		return (0);
+//	}
+//	line->len = save - buffer + 1;
+//	ft_strlcpy(line->content, buffer, line->len + 1);
+//	ft_strlcpy(buffer, save + 1, BUFFER_SIZE + 1);
+//	line->content = gnl_str_realloc(line->content, line->len, line->len + 1);
+//	return (1);
+//}
 
 //char	*get_next_line(int fd)
 //{
