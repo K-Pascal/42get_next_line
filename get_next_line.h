@@ -6,7 +6,7 @@
 /*   By: pnguyen- <pnguyen-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 16:36:56 by pnguyen-          #+#    #+#             */
-/*   Updated: 2024/01/27 20:03:18 by pnguyen-         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:04:21 by pnguyen-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 
 # include <stddef.h>
 
-typedef struct s_line
+typedef struct s_str
 {
-	char	*content;
+	char	*data;
 	size_t	len;
 	size_t	size;
-}	t_line;
+}	t_str;
 
 char	*get_next_line(int fd);
 
