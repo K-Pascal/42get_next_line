@@ -6,7 +6,7 @@
 /*   By: pnguyen- <pnguyen-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 11:36:32 by pnguyen-          #+#    #+#             */
-/*   Updated: 2024/02/10 14:09:27 by pnguyen-         ###   ########.fr       */
+/*   Updated: 2024/03/03 04:39:29 by pnguyen-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE == 0)
 		return (NULL);
+	line.size = BUFFER_SIZE + 1;
+	line.data = malloc(line.size * sizeof(char));
+	if (line.data == NULL)
+		return (NULL);
 	if (gnl_absorb_buffer(&line, buffer))
 		return (line.data);
 	bytes = gnl_read(&line, fd, buffer);
@@ -35,19 +39,13 @@ char	*get_next_line(int fd)
 		free(line.data);
 		return (NULL);
 	}
-	line.data = gnl_str_realloc(line.data, line.len, line.len + 1);
-	return (line.data);
+	return (gnl_str_realloc(line.data, line.len, line.len + 1));
 }
 
 static int	gnl_absorb_buffer(t_str *str, char buffer[BUFFER_SIZE])
 {
 	char	*stash;
 
-	str->len = 0;
-	str->size = BUFFER_SIZE + 1;
-	str->data = malloc(str->size * sizeof(char));
-	if (str->data == NULL)
-		return (1);
 	stash = ft_strchr(buffer, '\n');
 	if (stash == NULL)
 	{
@@ -56,11 +54,14 @@ static int	gnl_absorb_buffer(t_str *str, char buffer[BUFFER_SIZE])
 		buffer[0] = '\0';
 		return (0);
 	}
-	str->len = ++stash - buffer;
-	ft_strlcpy(str->data, buffer, str->len + 1);
-	ft_strlcpy(buffer, stash, BUFFER_SIZE);
-	str->data = gnl_str_realloc(str->data, str->len, str->len + 1);
-	return (1);
+	else
+	{
+		str->len = ++stash - buffer;
+		ft_strlcpy(str->data, buffer, str->len + 1);
+		ft_strlcpy(buffer, stash, BUFFER_SIZE);
+		str->data = gnl_str_realloc(str->data, str->len, str->len + 1);
+		return (1);
+	}
 }
 
 static ssize_t	gnl_read(t_str *str, int fd, char buffer[BUFFER_SIZE])
@@ -85,8 +86,6 @@ static ssize_t	gnl_read(t_str *str, int fd, char buffer[BUFFER_SIZE])
 		stash = ft_strchr(str->data + str->len, '\n');
 		str->len += bytes;
 	}
-	if (stash == NULL)
-		return (bytes);
 	str->len = ++stash - str->data;
 	ft_strlcpy(buffer, stash, BUFFER_SIZE);
 	return (bytes);
